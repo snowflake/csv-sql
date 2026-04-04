@@ -18,11 +18,13 @@
     <ul><!-- table of contents -->
       <li><a href="#intro">Introduction</a></li>
       <li><a href="#sysreq">System requirements</a></li>
+      <li><a href="#testme">A small test program</a></li>
     </ul>
 
     <h2 id="intro">Introduction</h2>
     <p>This Python3 script loads csv files downloaded from
     British banks into a Sqlite3 database.</p>
+
     <h2 id="sysreq">System Requirements</h2>
     
     <ul>
@@ -40,10 +42,15 @@
       <p>sqlite3 can be obtained from <a href="https://www.sqlite.org">www.sqlite.org</a></p>
       </li>
       <li><p>(Optional), a spreadsheet program such as Excel or Numbers.</p></li>
-
-
     </ul>
-    
+
+    <h2 id="testme">A small test program</h2>
+    <p>tload.py is a test program that will create a database from a CSV file. It has been tested on CSVs from Natwest.</p>
+    <p>Create an empty directory. Copy tload.py into it. Copy a CSV file
+    into it and rename it to "testme.csv"</p>
+    <p>Run the python script with "python3 tload.py"</p>
+    <p>The database will be named "trans.db"</p>
+
   </body>
 </html>
 
