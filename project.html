@@ -169,7 +169,7 @@
 	
       <dt>Q: What is the "tid" column in the database?</dt>
       <dd><p>"tid" means "transaction id." It is an integer calculated by
-      taking the number of days since 17 November 1858, mutiplying it by 100,
+      taking the number of days since 17 November 1858, multiplying it by 100,
       and then adding 1 for the first transaction for the day, 2 for the second,
       and so on for all the other transactions on the day.</p>
 
@@ -184,6 +184,24 @@
       the second tid is 6113602.</p>
 
       <p>Unlike dates, tids are unique within a table. They are also collatable.</p>
+      </dd>
+
+      <dt>Q: How will the script deal with missing or duplicated transactions?</dt>
+      <dd>
+	<p>The script will load a database from a CSV with each transaction
+	given an unique id (a "tid").</p>
+
+	<p>No transaction will be duplicated in the database based
+	on the tid.</p>
+
+	<p>Transactions will be verified to see if the balance
+	of the previous transaction plus the value of the current
+	transaction is equal to the balance
+	of the current transaction.</p>
+
+	<p>The script will give a list of date ranges where
+	transactions are missing.</p>
+
       </dd>
       
     </dl>
