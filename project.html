@@ -3,22 +3,33 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  xml:lang="en">
   <head>
-    <meta charset="utf-8" />
+
+    <!-- -->
+    <!-- <meta http-equiv="content-type" content="application/xhtml+xml charset=utf-8" /> -->
     <title>CSV to sqlite3 database file</title>
-    <style  >
+    <style  type="text/css">
       h1 { font-family: Helvetica }
     </style>
-    <style >
+    <style type="text/css">
       body { margin-left: 10%; margin-right: 10%; }
       li   {margin-top: 20px; margin-bottom: 20px; }
     </style>
   </head>
   <body>
-    <h1>Load bank CSV files into sqlite3 database</h1>
+
+    <h1>Load UK bank CSV files into sqlite3 database</h1>
+    <p  style="color:red;">Please note: this document is about
+    a work-in-progess to develop a program to load CSV files into a database.
+    I'm documenting a program I'm writing before I've written the code.
+    Things may change! There is a FAQ containing random questions about the project.
+    This document is partly a specification.</p>
+
     <ul><!-- table of contents -->
       <li><a href="#intro">Introduction</a></li>
       <li><a href="#sysreq">System requirements</a></li>
       <li><a href="#testme">A small test program</a></li>
+      <li><a href="#config1">The configuration file for the user</a></li>
+      <li><a href="#faq">FAQ: Frequently asked questions with answers</a></li>
     </ul>
 
     <h2 id="intro">Introduction</h2>
@@ -28,7 +39,8 @@
     <h2 id="sysreq">System Requirements</h2>
     
     <ul>
-      <li><p>Windows or macOS or Linux or *BSD. Any system that can run Python3 and sqlite3</p></li>
+      <li><p>Windows or macOS or Linux or *BSD.
+      Any system that can run Python3 and sqlite3</p></li>
       <li><p>Python 3, preferably a reasonably recent version.
       It is available already installed on recent versions of macOS.
       For Linux it can be installed using apt-get, or the equivalent
@@ -45,12 +57,108 @@
     </ul>
 
     <h2 id="testme">A small test program</h2>
-    <p>tload.py is a test program that will create a database from a CSV file. It has been tested on CSVs from Natwest.</p>
+    <p>tload.py is a test program that will create a database from a CSV file.
+    It has been tested on CSVs from Natwest.</p>
+    <p>tload.py can be obtained from <a href="https://github.com/snowflake/csv-sql">Github</a>.
+    Click on the "Latest" button under Releases on the right-hand side. You can
+    also clone the repository with git.</p>
+    <p>Extract the files from the zip or tar.</p>
     <p>Create an empty directory. Copy tload.py into it. Copy a CSV file
     into it and rename it to "testme.csv"</p>
     <p>Run the python script with "python3 tload.py"</p>
     <p>The database will be named "trans.db"</p>
 
+
+    <!-- ================= the config file -->
+    <h2 id="config1">The user configuration file</h2>
+    <p>Here's a sample configuration file. It's in JSON. Hopefully, it's
+    not too intimidating for a novice user to edit.</p>
+    <p>It defines the configuration for two users named "bart" and "homer"</p>
+    <pre>
+  {
+  "bart": {
+      "account_number": "50128900",
+      "account_sort_code": "71-72-03",
+      "account_type": "current",
+      "account_name": "SIMPSON-B",
+      "csv_filename_contains_account_number": true,
+      "csv_format": ["nationwide","nationwide-2"],
+      "database_filename": "bart.db"
+  },
+    "homer": {
+	"account_number": "60123422",
+        "account_sort_code": "22-40-77",
+	"account_type": "saving",
+	"account_name": "SIMPSONH",
+	"csv_filename_contains_account_number": false,
+	"csv_format": ["starling"],
+	"database_filename": "homer.db"
+    }
+}
+    </pre>
+    
+    <!-- faq section ============================================ -->
+    <h2 id="faq">Frequently asked questions</h2>
+    <dl>
+      <dt>Q: What is a CSV file?</dt>
+      <dd><p>(from <a href="https://en.wikipedia.org/wiki/Comma-separated_values">Wikipedia</a>) Comma-separated values (CSV) is a plain text data format for storing tabular data where the fields (values) of a record are separated by a comma and each record is a line (i.e. newline separated). CSV is commonly-used in software that generally deals with tabular data such as a database or a spreadsheet. Benefits cited for using CSV include simplicity of use and human readability. CSV is a form of delimiter-separated values. A CSV file is a file that contains CSV-formatted data.</p></dd>
+    
+      <dt>Q: What do banks use CSV files for?</dt>
+      <dd>
+	<p>Banks provide downloadable CSV files as an additional method of giving
+	their customer information about the transactions in their account.</p>
+	<p>The customer can then import the CSV files into their spreadsheets
+      and/or databases.</p></dd>
+
+      <dt>Q: Is there an industry standard for the format of bank CSV files?</dt>
+
+      <dd><p>There does not appear to be one.  The format of the date value can
+      be "02/01/2026" or "02 Jan 2026".  Neither of these formats is collatable in
+      a meaingful order in a database or spreadsheet column. The transactions can be
+      in ascending or descending date order. The amount of a
+      transaction can be in two columns for "Paid Out"
+      and "Paid In" or one column labelled "Amount" with a signed number.</p>
+      <p>Sometimes numerical values are preceded by a £ sign. Sometimes the
+      account number is present in a column, and sometimes it's not.</p>
+
+      <p>None of the banks I've seen so far give any indication of
+      the order of transactions within a particular day.
+      This makes it hard to sort the transactions to
+      determine if there is an inconsistency or missing transactions.</p>
+      <p>Sometimes the transaction type is described in detail, and other
+      times a 3 letter abbreviation is used. See this document from
+      <a href="https://www.natwest.com/support-centre/view-or-change-your-details/view-statements/do-you-have-a-list-of-statement-abbreviations.html">Natwest</a> for a list of the abbreviations they use.</p>
+
+
+      <p>It's a complete mess!</p></dd>
+
+      <dt>Q: How many transactions are there in a CSV file?</dt>
+      <dd><p>Natwest allow up to 1 years worth in a single file. The
+      transactions are only available for the last seven years. Multiple
+      files can be downloaded in one session logged in to the website.</p>
+      </dd>
+
+      <dt>Q: What is the "tid" column in the database?</dt>
+      <dd><p>"tid" means "transaction id." It is an integer calculated by
+      taking the number of days since 17 November 1858, mutiplying it by 100,
+      and then adding 1 for the first transaction for the day, 2 for the second,
+      and so on for all the other transactions on the day.</p>
+
+      <p>The number of transactions for the day can be no more than 99, so this
+      program is not suitable for use in business.</p>
+
+      <p>17 November 1858 is day 0 of the Modified Julian Day (MJD).
+      <a href="https://en.wikipedia.org/wiki/Julian_day#Variants">Wikipedia MJD</a>.
+      </p>
+
+      <p>The MJD for 6 April 2026 is 61136, so the first transaction tid is 6113601,
+      the second tid is 6113602.</p>
+
+      <p>Unlike dates, tids are unique within a table. They are also collatable.</p>
+      </dd>
+      
+    </dl>
+    
   </body>
 </html>
 
