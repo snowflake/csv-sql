@@ -141,12 +141,45 @@
       files can be downloaded in one session logged in to the website.</p>
       </dd>
 
+      <dt>Q: Why don't I just import all my CSV files into my spreadsheet?</dt>
+
+      <dd>
+	<p>Importing a single CSV into a speadsheet is a perfectly acceptable
+	way of working. It's probable that banks think this is how their customers
+	use their CSVs, as an alternative to downloading a PDF statement or receiving
+	a paper statement in the post or even visiting the web site to view
+	their transactions online. (Do banks still supply paper statements?)
+	</p>
+	<p>The difficulty arises when multiple CSVs are imported into one
+	spreadsheet. Banks
+	have been known to change the date order of their CSVs. The format
+	of the date could  differ. (I'm looking at you, Natwest).
+	There is no unique transaction ID.
+	Unless you are very disciplined and organised it's easy
+	to get duplicated and missing transactions. This is a disaster
+	in the making if you are compiling data for your tax return.</p>
+      </dd>	
+
+      <dt>Why should I use a database with a language like SQL that I don't
+      understand?</dt>
+      <dd><p>You don't actually need to know very much about SQL. It helps
+      to know about the SELECT command.</p>
+      <p>This reasonably simple query will go a long way:</p>
+      <pre>SELECT * FROM mytable WHERE date &gt;= '2026-01-01' ORDER BY tid ASC;</pre>
+      <p>This will select all transactions beginning in January 2026</p>
+    </dd>
+      
       <dt>Q: Where can I learn about SQL as implemented in sqlite3?</dt>
       <dd><p><a href="https://www.sqlite.org">www.sqlite.org</a>
       is the obvious place, but the syntax diagrams are a bit
       intimidating. I also like <a href="https://www.sqlitetutorial.net/">
       www.sqlitetutorial.net</a>
       </p></dd>                         
+
+      <dt>Q: I haven't got a spreadsheet program. How do I use sqlite3?</dt>
+      <dd><p>sqlite3 has a great variety of output formats. It is capable of
+      showing the results of a query in a web browser as a nicely formatted table.
+      </p></dd>
 
       <dt>Q: What is the best way to keep CSV files safe?</dt>
       <dd>
