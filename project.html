@@ -138,6 +138,31 @@
       files can be downloaded in one session logged in to the website.</p>
       </dd>
 
+      <dt>Q: Where can I learn about SQL as implemented in sqlite3?</dt>
+      <dd><p><a href="https://www.sqlite.org">www.sqlite.org</a>
+      is the obvious place, but the syntax diagrams are a bit
+      intimidating. I also like <a href="https://www.sqlitetutorial.net/">
+      www.sqlitetutorial.net</a>
+      </p></dd>                         
+
+      <dt>Q: What is the best way to keep CSV files safe?</dt>
+      <dd>
+	<p>Bearing in mind that you cannot get CSV data from the bank for
+	transactions older than seven years, it is important to keep the files
+	safe.</p>
+	<p>I create a directory which only contains pristine CSV files exactly
+	as downloaded from the bank. I do not create any databases in this
+	directory or use the files in any program.</p>
+	<p>I check the files into version control programs like Git or Fossil.
+	I also upload the files to the cloud.</p>
+	<p>When all the files are safely stored, I copy them to my working
+	directory or directories</p>
+	<p>CSV files are precious. Do not rely on your database as your sole
+	archive as there are SQL commands like "DROP TABLE" which
+	will delete all your data. :-(
+	</p>
+      </dd>
+	
       <dt>Q: What is the "tid" column in the database?</dt>
       <dd><p>"tid" means "transaction id." It is an integer calculated by
       taking the number of days since 17 November 1858, mutiplying it by 100,
