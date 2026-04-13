@@ -1,6 +1,6 @@
 
 import sqlite3
-from decimal import *
+from decimal import Decimal
 # create a database
 
 # This program requires Python3.14 (maybe it works on older systems.
@@ -74,7 +74,7 @@ with open('testme.csv', newline='') as csvfile:
         line = line + 1
         if len(row) == 0:
             continue
-        if headerseen == False and line < 4:
+        if not headerseen and line < 4:
             if testelements(row):
                 headerseen = True
                 continue
