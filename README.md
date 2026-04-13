@@ -2,6 +2,8 @@
 cvs-sql is a Python script that loads CSV files downloaded from
 British banks into a sqlite3 database.
 
+This project is now terminated as it only works on CSVs from one UK bank. 
+
 Please read the license for disclaimer of responsibility
 for any data loss.
 
